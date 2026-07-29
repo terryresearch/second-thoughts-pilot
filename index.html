@@ -12,6 +12,7 @@
   --n-800:#2E2A25; --n-900:#1C1916; --n-950:#100E0C;
   --a-50:#EEF3F8; --a-300:#A9C0D8; --a-500:#2E6BA8; --a-600:#1F5691; --a-700:#17436F; --a-800:#11324F;
   --c-error:#8E2116; --c-error-bg:#FBF3F2;
+  --mark-keep:#146B3F; --mark-remove:#A32718;
   --font-sans:"Inter",-apple-system,BlinkMacSystemFont,"Segoe UI","Helvetica Neue",Arial,sans-serif;
   --font-mono:ui-monospace,"SFMono-Regular","SF Mono",Menlo,Consolas,"Liberation Mono",monospace;
   --fw-regular:400; --fw-medium:500; --fw-semibold:600;
@@ -110,6 +111,20 @@ a{color:var(--a-600);}
   color:var(--n-900);margin:0;font-variant-numeric:tabular-nums;}
 
 .instr-line{font-size:var(--t-body-size);line-height:24px;color:var(--n-700);}
+.pcard{position:relative;}
+.mark{position:absolute;top:25%;left:50%;transform:translate(-50%,-50%) scale(.55);
+  width:120px;height:120px;border-radius:var(--r-full);display:grid;place-items:center;
+  background:rgba(255,255,255,.95);box-shadow:var(--shadow-3);opacity:0;pointer-events:none;
+  transition:opacity 200ms var(--ease-standard),transform 200ms var(--ease-standard);z-index:3;}
+.pcard.acted .mark{opacity:1;transform:translate(-50%,-50%) scale(1);}
+.mark svg{width:60px;height:60px;}
+.mark .mlab{position:absolute;bottom:-30px;left:50%;transform:translateX(-50%);white-space:nowrap;
+  font-size:var(--t-meta-size);line-height:20px;font-weight:var(--fw-semibold);letter-spacing:.02em;}
+.mark.keep{color:var(--mark-keep);} .mark.remove{color:var(--mark-remove);}
+.pcard.dimmed::after{content:"";position:absolute;inset:0;border-radius:var(--r-8);z-index:2;
+  pointer-events:none;background:rgba(245,242,238,.72);animation:veil 260ms var(--ease-standard);}
+@keyframes veil{from{opacity:0}to{opacity:1}}
+.pcard.dimmed .pname{text-decoration:line-through;color:var(--n-600);}
 .compare{display:grid;grid-template-columns:1fr 1fr;column-gap:var(--gutter);align-items:stretch;position:relative;}
 .pcard{background:var(--n-0);border:1px solid var(--n-300);border-radius:var(--r-8);
   box-shadow:var(--shadow-1);padding:24px 28px;display:flex;flex-direction:column;}
@@ -162,6 +177,21 @@ a{color:var(--a-600);}
 .ftr a:hover{color:var(--n-0);text-decoration:underline;}
 .ftr-legal{margin-top:40px;padding-top:20px;border-top:1px solid rgba(255,255,255,.10);
   font-size:var(--t-caption-size);line-height:16px;color:var(--n-400);}
+.actbar{display:flex;align-items:flex-start;column-gap:16px;background:var(--n-0);
+  border:1px solid var(--n-300);border-left-width:4px;border-radius:var(--r-8);
+  box-shadow:var(--shadow-1);padding:20px 24px;}
+.actbar.keep{border-left-color:var(--mark-keep);}
+.actbar.remove{border-left-color:var(--mark-remove);}
+.actglyph{flex:0 0 auto;width:40px;height:40px;display:grid;place-items:center;}
+.actglyph svg{width:32px;height:32px;}
+.actbar.keep .actglyph{color:var(--mark-keep);}
+.actbar.remove .actglyph{color:var(--mark-remove);}
+.acthead{display:block;font-size:var(--t-h2-size);line-height:30px;letter-spacing:var(--t-h2-ls);
+  font-weight:var(--fw-semibold);color:var(--n-900);}
+.actsub{display:block;font-size:var(--t-body-size);line-height:22px;color:var(--n-700);margin-top:4px;}
+.recap-mark{flex:0 0 auto;width:22px;height:22px;display:grid;place-items:center;}
+.recap-mark svg{width:20px;height:20px;}
+.recap-mark.keep{color:var(--mark-keep);} .recap-mark.remove{color:var(--mark-remove);}
 .cartline{display:grid;grid-template-columns:120px 1fr auto;align-items:center;column-gap:20px;
   padding:20px 0;border-bottom:1px solid var(--n-200);}
 .cartline:last-of-type{border-bottom:none;}
@@ -1073,6 +1103,16 @@ addEventListener("blur",()=>{ D.blur_count++; });
 /* ======================================================================== */
 /* STIMULUS DEFINITION                                                      */
 /* ======================================================================== */
+const GLYPH_KEEP = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" '+
+  'stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12.5l5.5 5.5L20 6.5"/></svg>';
+const GLYPH_REMOVE = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" '+
+  'stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>';
+function markHtml(){
+  const keep = D.cond_act === "choose";
+  return '<div class="mark '+(keep?'keep':'remove')+'" role="img" aria-label="'+
+    (keep?'Kept':'Removed')+'">'+(keep?GLYPH_KEEP:GLYPH_REMOVE)+
+    '<span class="mlab">'+(keep?'Kept':'Removed')+'</span></div>';
+}
 const NAMES = ["Vantrel Nord","Vantrel Sela"];
 const SHORT = ["Nord","Sela"];
 const SKUS  = ["VN-N2-STD","VN-S2-STD"];
@@ -1244,6 +1284,7 @@ function specRowsHtml(m){
 function productCardHtml(m, side){
   const f=FRAME[D.cond_act];
   return '<section class="pcard" data-side="'+side+'" aria-labelledby="nm-'+side+'">'+
+    markHtml()+
     '<div class="pwell">'+renderProduct(m,"pimg")+'</div>'+
     '<div class="psku">'+esc(m.sku)+' \u00b7 REV 2</div>'+
     '<h2 class="pname" id="nm-'+side+'">'+esc(m.name)+'</h2>'+
@@ -1390,8 +1431,13 @@ function numberQ(code, prompt, prefix, hint, min, max){
 
 /** the frame-aligned recap shown above every measurement screen */
 function recap(){
-  return '<div class="recap"><strong>In your cart:</strong> '+esc(D.dec_kept_name)+
-         ' &nbsp;\u00b7&nbsp; <strong>Not in your cart:</strong> '+esc(D.dec_forgone_name)+'</div>';
+  const choose = D.cond_act==="choose";
+  const act = choose ? 'You chose the '+D.dec_kept_name+'.'
+                     : 'You removed the '+D.dec_forgone_name+'.';
+  return '<div class="recap" style="display:flex;align-items:flex-start;column-gap:12px">'+
+    '<span class="recap-mark '+(choose?'keep':'remove')+'" role="img" aria-label="'+
+      (choose?'Kept':'Removed')+'">'+(choose?GLYPH_KEEP:GLYPH_REMOVE)+'</span>'+
+    '<span><strong>'+esc(act)+'</strong><br>The '+esc(D.dec_kept_name)+' is in your cart.</span></div>';
 }
 /* Act-aligned stem for the process measures (researcher request): identical
    syntax in both frames, differing only in the verb and its object. The primary
@@ -1524,9 +1570,18 @@ const PAGES = [
 { id:"outcome", fam:"store", cta:"Continue", ctaStore:true,
   render(c){
     const kept=S.model[D.dec_kept_idx], forg=S.model[1-D.dec_kept_idx];
+    const choose = D.cond_act==="choose";
+    // Headline differs only in verb + object; the sub-line is word-for-word identical.
+    const head = choose ? 'You chose the '+kept.name+'.' : 'You removed the '+forg.name+'.';
+    const sub  = 'The '+forg.name+' is out. The '+kept.name+' is going in your cart.';
     const inner =
       '<div class="shell" style="padding-top:28px">'+
-        '<h1 class="store-h1" tabindex="-1">Your cart</h1>'+
+        '<div class="actbar '+(choose?'keep':'remove')+'">'+
+          '<span class="actglyph">'+(choose?GLYPH_KEEP:GLYPH_REMOVE)+'</span>'+
+          '<span><span class="acthead">'+esc(head)+'</span>'+
+          '<span class="actsub">'+esc(sub)+'</span></span>'+
+        '</div>'+
+        '<h1 class="store-h1" tabindex="-1" style="margin-top:28px">Your cart</h1>'+
         '<p class="store-sub">This is now set and cannot be changed.</p>'+
         '<div style="margin-top:24px;background:var(--n-0);border:1px solid var(--n-300);'+
         'border-radius:var(--r-8);box-shadow:var(--shadow-1);padding:8px 28px">'+
@@ -1856,7 +1911,17 @@ function mountDecision(){
       D.dwell_switches      = switches;
 
       logEvent("decision",{ cell:D.cond_cell, kept:D.dec_kept_name, dom:D.dec_kept_dominant });
-      advance();
+
+      // Reinforce the act: the mark lands on the card the participant ACTED ON
+      // (checked when choosing, crossed when rejecting). The forgone card dims in
+      // BOTH frames, so the end state is identical and only the mark's target differs.
+      btns.forEach(b=>{ b.disabled=true; b.setAttribute("aria-disabled","true"); });
+      const clickedCard = $('.pcard[data-side="'+side+'"]');
+      const otherCard   = $('.pcard[data-side="'+(side==="left"?"right":"left")+'"]');
+      const forgoneCard = D.cond_act==="choose" ? otherCard : clickedCard;
+      if(clickedCard) clickedCard.classList.add("acted");
+      setTimeout(()=>{ if(forgoneCard) forgoneCard.classList.add("dimmed"); }, 320);
+      setTimeout(advance, 1500);
     });
   });
 }
