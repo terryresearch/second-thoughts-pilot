@@ -97,7 +97,7 @@ a{color:var(--a-600);}
   font-weight:var(--fw-semibold);color:var(--n-900);}
 .store-sub{font-size:var(--t-body-size);line-height:24px;color:var(--n-700);max-width:640px;margin-top:8px;}
 
-.labband{height:180px;background:var(--n-100);border:1px solid var(--n-200);border-radius:var(--r-8);
+.labband{height:206px;background:var(--n-100);border:1px solid var(--n-200);border-radius:var(--r-8);
   padding:24px 32px;display:grid;grid-template-columns:1fr 256px;column-gap:40px;}
 .labband .eyebrow{font-size:var(--t-caption-size);line-height:16px;font-weight:var(--fw-semibold);
   letter-spacing:.09em;text-transform:uppercase;color:var(--n-600);}
@@ -1119,38 +1119,44 @@ const SKUS  = ["VN-N2-STD","VN-S2-STD"];
 const DESC  = "Adaptive noise cancellation, wireless charging case, multipoint pairing and IP-rated splash resistance.";
 
 const SPEC_LABELS = {
-  drivers:"Drivers", sound:"Sound signature", fit:"Fit style", design:"Design & finish",
-  battery:"Battery, earbuds", anc:"Noise cancellation", water:"Water resistance"
+  drivers:"Driver", origin:"Design & assembly", build:"Housing & construction",
+  voicing:"Acoustic voicing", battery:"Battery, earbuds", anc:"Noise cancellation",
+  water:"Water resistance"
 };
-const ROW_ORDER_A = ["drivers","sound","fit","design","battery","anc","water"];
-const ROW_ORDER_B = ["drivers","battery","anc","water","sound","fit","design"];
+const ROW_ORDER_A = ["drivers","origin","build","voicing","battery","anc","water"];
+const ROW_ORDER_B = ["drivers","battery","anc","water","origin","build","voicing"];
 
-// Profile 1 / Profile 2 within each domain. Never referred to as A/B on screen.
-const PROFILES = {
-  taste: [
-    { render:"budsLowProfile", palette:"slateBlue",
-      specs:{ drivers:["11 mm dynamic",""], sound:["Warm, bass-forward",""], fit:["Sealed in-ear tips",""],
-              design:["Low-profile, slate blue",""], battery:["28","h"], anc:["33","dB"], water:["IPX6 \u00b7 heavy splash",""] } },
-    { render:"budsStem", palette:"sandWhite",
-      specs:{ drivers:["11 mm dynamic",""], sound:["Bright, detail-forward",""], fit:["Semi-open, no seal",""],
-              design:["Stem-style, sand white",""], battery:["28","h"], anc:["33","dB"], water:["IPX6 \u00b7 heavy splash",""] } }
-  ],
-  quality: [
-    { render:"budsLowProfile", palette:"graphite",
-      specs:{ drivers:["11 mm dynamic",""], sound:["Neutral, balanced",""], fit:["Sealed in-ear tips",""],
-              design:["Low-profile, graphite",""], battery:["30","h"], anc:["36","dB"], water:["IPX7 \u00b7 submersible",""] } },
-    { render:"budsLowProfile", palette:"graphite",
-      specs:{ drivers:["11 mm dynamic",""], sound:["Neutral, balanced",""], fit:["Sealed in-ear tips",""],
-              design:["Low-profile, graphite",""], battery:["25","h"], anc:["31","dB"], water:["IPX5 \u00b7 light splash",""] } }
-  ]
-};
-// Which spec keys differ between the two models, per domain (drives the row weight + gutter rails).
-const DIFFERS = { taste:["sound","fit","design"], quality:["battery","anc","water"] };
+// ONE pair of models, shown in BOTH domain conditions. They differ only on
+// qualitative, non-quantified dimensions that cannot be ranked by inspection, so
+// neither model dominates and the decision is equally hard in both conditions.
+// The domain manipulation lives entirely in the lab-report framing below.
+const MODEL_PROFILES = [
+  { render:"budsLowProfile", palette:"slateBlue",
+    specs:{ drivers:["11 mm dynamic",""],
+            origin:["Designed in Denmark",""],
+            build:["Machined aluminium",""],
+            voicing:["Warm, full-bodied",""],
+            battery:["28","h"], anc:["Adaptive hybrid",""], water:["IPX6 \u00b7 heavy splash",""] } },
+  { render:"budsStem", palette:"sandWhite",
+    specs:{ drivers:["11 mm dynamic",""],
+            origin:["Designed in Japan",""],
+            build:["Composite polymer",""],
+            voicing:["Bright, articulate",""],
+            battery:["28","h"], anc:["Adaptive hybrid",""], water:["IPX6 \u00b7 heavy splash",""] } }
+];
+// Rows on which the two models differ. Identical in both domains, so the structure
+// of the comparison -- and therefore its difficulty -- is held constant.
+const DIFFER_KEYS = ["origin","build","voicing"];
 
 const LABBAND = {
-  taste:  "Both units score identically on every specification measured in this comparison, returning overall bench scores of 82 and 82. They differ in sound signature, fit style and finish, and which one is better comes down to personal taste.",
-  quality:"One unit scores higher on every specification measured in this comparison, returning overall bench scores of 86 and 79. They are alike in sound signature, fit style and finish, and independent testing shows which one is better."
+  taste:  "Our bench measurements and trained listening panels find no quality difference between these two "+
+          "models \u2014 they differ in origin, construction and voicing, and which one is better is purely a "+
+          "matter of personal taste. We publish the differences and leave the decision to you.",
+  quality:"Our bench measurements and trained listening panels find a real quality difference between these two "+
+          "models \u2014 they differ in origin, construction and voicing, and which one is better is an objective "+
+          "matter of fact. We publish the differences and leave the decision to you."
 };
+
 const FRAME = {
   choose:{ instr:"One of these two models is going in your cart. Which one do you want to keep?",
            btn:"Keep this one", aria:"Keep the ",
@@ -1163,56 +1169,38 @@ const FRAME = {
 /* ---- realized stimulus for this participant (built at assignment) ---- */
 const S = {};
 function buildStimulus(){
-  const dom = D.cond_domain;
-  // 1. name -> profile mapping
-  const nameFirst = pick2();                       // 0: NAMES[0] carries profile 0
-  // 2. in quality, which profile is the dominant one (profile 0 is dominant by construction)
-  //    swap the spec sets so dominance is not tied to profile index
-  const domSwap = dom === "quality" ? pick2() : 0;
-  // 3. side
-  const leftIsFirstName = pick2();
-  // 4. spec row order
-  const rowOrder = pick2();
-  const mirrorFirst = pick2();   // which of the two quality units is shot mirrored
+  const nameFirst       = pick2();   // which product name carries which profile
+  const leftIsFirstName = pick2();   // which name sits on the left
+  const rowOrder        = pick2();   // which block of spec rows is read first
 
-  const profs = PROFILES[dom];
-  // model[i] describes NAMES[i]
   const model = [0,1].map(i=>{
-    const pIdx = nameFirst === 0 ? i : 1-i;        // which profile this name carries
-    const sIdx = dom === "quality" ? (domSwap ? 1-pIdx : pIdx) : pIdx;
-    return {
-      name:NAMES[i], short:SHORT[i], sku:SKUS[i],
-      render:profs[pIdx].render, palette:profs[pIdx].palette,
-      specs:profs[sIdx].specs,
-      // In the quality cell both units share one design, so the two renders would be
-      // pixel-identical. Exactly one is mirrored \u2014 a different camera angle on the same
-      // product, carrying no style or quality signal \u2014 and which one is randomised.
-      mirror: dom === "quality" && i === mirrorFirst,
-      dominant: dom === "quality" ? (sIdx === 0 ? 1 : 0) : null
-    };
+    const pIdx = nameFirst === 0 ? i : 1-i;
+    return { name:NAMES[i], short:SHORT[i], sku:SKUS[i],
+             render:MODEL_PROFILES[pIdx].render, palette:MODEL_PROFILES[pIdx].palette,
+             specs:MODEL_PROFILES[pIdx].specs, profile:pIdx };
   });
 
-  S.dom = dom;
+  S.dom = D.cond_domain;
   S.model = model;
   S.leftIdx  = leftIsFirstName ? 0 : 1;
   S.rightIdx = leftIsFirstName ? 1 : 0;
   S.rowKeys  = rowOrder ? ROW_ORDER_B : ROW_ORDER_A;
-  S.differs  = DIFFERS[dom];
+  S.differs  = DIFFER_KEYS;
 
-  D.cb_name_map      = nameFirst ? "sela_profile1" : "nord_profile1";
-  D.cb_dominant      = dom === "quality" ? (model[0].dominant ? "nord_dominant" : "sela_dominant") : "na";
-  D.cb_side          = S.leftIdx === 0 ? "nord_left" : "sela_left";
-  D.cb_rowgroup      = rowOrder ? "measured_first" : "experiential_first";
-  D.cb_mirror        = dom === "quality" ? (mirrorFirst===0 ? "nord_mirrored" : "sela_mirrored") : "na";
-  D.stim_left_name   = model[S.leftIdx].name;
-  D.stim_right_name  = model[S.rightIdx].name;
+  D.cb_name_map     = nameFirst ? "sela_profile1" : "nord_profile1";
+  D.cb_side         = S.leftIdx === 0 ? "nord_left" : "sela_left";
+  D.cb_rowgroup     = rowOrder ? "measured_first" : "qualitative_first";
+  D.cb_dominant     = "na";          // no dominant option exists by design
+  D.cb_mirror       = "na";
+  D.stim_left_name  = model[S.leftIdx].name;
+  D.stim_right_name = model[S.rightIdx].name;
 }
 
 /* ---- product render helper ---- */
 function renderProduct(m, cls){
   const pal = PRODUCT_SVG_PALETTES[m.palette];
   const style = Object.keys(pal).map(k=>k+":"+pal[k]).join(";") +
-                (m.mirror ? ";transform:scaleX(-1)" : "");
+                "";
   return '<div class="'+cls+'" style="'+style+'">'+PRODUCT_SVG[m.render]+"</div>";
 }
 
@@ -1550,8 +1538,8 @@ const PAGES = [
           '<dl class="labmeta">'+
             '<dt>Report</dt><dd>VAL-2026-0314-R2</dd>'+
             '<dt>Issued</dt><dd>14 March 2026</dd>'+
-            '<dt>Method</dt><dd>EN 50332-2 \u00b7 IEC 60268-7</dd>'+
-            '<dt>Sample</dt><dd>n = 24 units per model</dd>'+
+            '<dt>Accredited</dt><dd>ISO/IEC 17025</dd>'+
+            '<dt>Panel</dt><dd>24 trained listeners</dd>'+
           '</dl>'+
         '</section>'+
         '<p class="instr-line" style="margin-top:24px">'+esc(f.instr)+'</p>'+
@@ -1901,7 +1889,7 @@ function mountDecision(){
       D.dec_forgone_short   = S.model[1-keptIdx].short;
       D.dec_clicked_side    = side;
       D.dec_kept_side       = keptSide;
-      D.dec_kept_dominant   = D.cond_domain==="quality" ? (S.model[keptIdx].dominant?1:0) : null;
+      D.dec_kept_profile    = S.model[keptIdx].profile;   // 0 = Denmark/aluminium, 1 = Japan/composite
       D.dec_time_ms         = enabledAt ? Math.round(performance.now()-enabledAt) : 0;
       D.dec_time_total_ms   = Math.round(performance.now()-enterMs);
       D.dwell_left_ms       = Math.round(dwell.left);
@@ -1910,7 +1898,7 @@ function mountDecision(){
       D.dwell_forgone_ms    = Math.round(keptSide==="left"?dwell.right:dwell.left);
       D.dwell_switches      = switches;
 
-      logEvent("decision",{ cell:D.cond_cell, kept:D.dec_kept_name, dom:D.dec_kept_dominant });
+      logEvent("decision",{ cell:D.cond_cell, kept:D.dec_kept_name, prof:D.dec_kept_profile });
 
       // Reinforce the act: the mark lands on the card the participant ACTED ON
       // (checked when choosing, crossed when rejecting). The forgone card dims in
