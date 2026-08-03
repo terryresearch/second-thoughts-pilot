@@ -97,6 +97,23 @@ a{color:var(--a-600);}
   font-weight:var(--fw-semibold);color:var(--n-900);}
 .store-sub{font-size:var(--t-body-size);line-height:24px;color:var(--n-700);max-width:640px;margin-top:8px;}
 
+.verdict{background:var(--n-0);border:1px solid var(--n-300);border-radius:var(--r-10);
+  box-shadow:var(--shadow-2);padding:40px 44px;display:grid;grid-template-columns:1fr 260px;column-gap:48px;}
+.vpill{display:inline-block;background:var(--n-900);color:var(--n-0);border-radius:var(--r-full);
+  padding:7px 18px;font-size:var(--t-caption-size);line-height:16px;font-weight:var(--fw-semibold);
+  letter-spacing:.14em;}
+.vhead{font-size:34px;line-height:44px;letter-spacing:-.018em;font-weight:var(--fw-semibold);
+  color:var(--n-900);margin:20px 0 0;max-width:620px;}
+.vsub{font-size:var(--t-prose-size);line-height:var(--t-prose-lh);color:var(--n-700);
+  margin:16px 0 0;max-width:600px;}
+.vfoot{font-size:var(--t-caption-size);line-height:16px;color:var(--n-600);margin:22px 0 0;}
+.vstrip{background:var(--n-100);border:1px solid var(--n-200);border-radius:var(--r-8);
+  padding:16px 22px;display:flex;align-items:center;column-gap:18px;}
+.vstrip .vpill{background:var(--n-800);flex:0 0 auto;}
+.vstrip .vs-head{font-size:var(--t-lead-size);line-height:26px;font-weight:var(--fw-semibold);
+  color:var(--n-900);flex:1 1 auto;}
+.vstrip .vs-meta{font-size:var(--t-caption-size);line-height:16px;color:var(--n-600);
+  text-align:right;flex:0 0 auto;font-variant-numeric:tabular-nums;}
 .labband{height:206px;background:var(--n-100);border:1px solid var(--n-200);border-radius:var(--r-8);
   padding:24px 32px;display:grid;grid-template-columns:1fr 256px;column-gap:40px;}
 .labband .eyebrow{font-size:var(--t-caption-size);line-height:16px;font-weight:var(--fw-semibold);
@@ -189,9 +206,11 @@ a{color:var(--a-600);}
 .acthead{display:block;font-size:var(--t-h2-size);line-height:30px;letter-spacing:var(--t-h2-ls);
   font-weight:var(--fw-semibold);color:var(--n-900);}
 .actsub{display:block;font-size:var(--t-body-size);line-height:22px;color:var(--n-700);margin-top:4px;}
-.recap-mark{flex:0 0 auto;width:22px;height:22px;display:grid;place-items:center;}
-.recap-mark svg{width:20px;height:20px;}
-.recap-mark.keep{color:var(--mark-keep);} .recap-mark.remove{color:var(--mark-remove);}
+.recap-mark{flex:0 0 auto;width:30px;height:30px;border-radius:var(--r-full);display:grid;
+  place-items:center;border:1.5px solid currentColor;}
+.recap-mark svg{width:18px;height:18px;}
+.recap-mark.keep{color:var(--mark-keep);background:rgba(20,107,63,.09);}
+.recap-mark.remove{color:var(--mark-remove);background:rgba(163,39,24,.09);}
 .cartline{display:grid;grid-template-columns:120px 1fr auto;align-items:center;column-gap:20px;
   padding:20px 0;border-bottom:1px solid var(--n-200);}
 .cartline:last-of-type{border-bottom:none;}
@@ -222,6 +241,21 @@ a{color:var(--a-600);}
 .stem{font-size:var(--t-prose-size);line-height:var(--t-prose-lh);font-weight:var(--fw-medium);
   color:var(--n-900);max-width:560px;}
 .helper{font-size:var(--t-meta-size);line-height:20px;color:var(--n-600);margin-top:8px;}
+.qlab{font-size:var(--t-body-size);line-height:22px;font-weight:var(--fw-semibold);color:var(--n-900);margin:0 0 12px;}
+.cards{display:grid;gap:10px;}
+.pcardopt{display:flex;flex-direction:column;align-items:center;justify-content:center;row-gap:8px;
+  min-height:96px;padding:14px 8px;border:1px solid var(--n-300);border-radius:var(--r-8);cursor:pointer;
+  background:var(--n-0);text-align:center;position:relative;
+  transition:background-color var(--dur-hover) var(--ease-standard),border-color var(--dur-hover) var(--ease-standard);}
+.pcardopt:hover{background:var(--n-25);border-color:var(--n-500);}
+.pcardopt:has(input:checked){background:var(--n-100);border-color:var(--n-900);box-shadow:inset 0 0 0 1px var(--n-900);}
+.pcardopt input{position:absolute;opacity:0;width:0;height:0;}
+.pcardopt input:focus-visible + .ico{box-shadow:var(--focus-ring-dark);border-radius:var(--r-4);}
+.pcardopt .ico{color:var(--n-700);display:grid;place-items:center;}
+.pcardopt .ico svg{width:26px;height:26px;}
+.pcardopt:has(input:checked) .ico{color:var(--n-900);}
+.clab{font-size:var(--t-meta-size);line-height:17px;color:var(--n-700);}
+.pcardopt:has(input:checked) .clab{color:var(--n-900);font-weight:var(--fw-medium);}
 .recap{background:var(--n-50);border:1px solid var(--n-200);border-radius:var(--r-6);
   padding:12px 16px;font-size:var(--t-meta-size);line-height:20px;color:var(--n-700);margin-bottom:24px;}
 .blk{margin-top:28px;}
@@ -895,11 +929,200 @@ const PRODUCT_SVG = (function () {
     '</g>' +
     '</svg>';
 
+  /* =====================================================================
+     5. + 6.  budsWhiteA / budsWhiteB  \u2014  matched stimulus pair
+              prefixes: wha_  /  whb_
+
+     These two are a controlled pair for a forced-choice task: one brand,
+     one design language, one white finish (palette `alpineWhite`), the
+     same virtual camera, the same key light, the same contact shadow.
+     Every stroke, gradient, highlight, detail and transform is emitted by
+     the single builder below, so neither render can carry more craft,
+     more mass or more visible detail than the other \u2014 quality parity by
+     construction, exactly as with nozzle() above.
+
+     Only three things differ, and all three are silhouette:
+       1. housing proportion  A rounder (111x104)  /  B ovaller (125x92)
+       2. touch plate         A flush disc         /  B lightly recessed
+          (identical stroke count either way: both get the same hairline
+           seam pair and the same accent ring, only the shading *inside*
+           the seam changes from flush-continuous to slightly sunken)
+       3. nozzle              A 156deg / B 162deg, ~2px longer at same girth
+
+     Deliberately NOT varied: overall size, gloss level, finish warmth,
+     metal accents, number of visible features, shadow weight. Each of
+     those reads as a price/quality difference and would confound choice.
+     Neither model has a stem \u2014 both sit in the compact stemless family.
+     ===================================================================== */
+
+  // A: rounder housing, 111 x 103   (flush touch plate)
+  var WA = "M2,-51.5C34,-49.5 56,-30 55,2C54,31.5 32,51.5 -2,51.5C-32,51.5 -55,30.5 -55,-2C-55,-31 -30,-49.5 2,-51.5Z";
+  var WA_TL = "M-55,-2C-55,-31 -30,-49.5 2,-51.5";
+  var WA_BR = "M55,2C54,31.5 32,51.5 -2,51.5";
+  var WA2 = "M1.64,-51.5C27.88,-49.5 45.92,-30 45.1,2C44.28,31.5 26.24,51.5 -1.64,51.5C-26.24,51.5 -45.1,30.5 -45.1,-2C-45.1,-31 -24.6,-49.5 1.64,-51.5Z";
+  var WA2_TL = "M-45.1,-2C-45.1,-31 -24.6,-49.5 1.64,-51.5";
+  var WA2_BR = "M45.1,2C44.28,31.5 26.24,51.5 -1.64,51.5";
+  var WA_PLATE = "M-0.94,-43.67C24.02,-42.11 41.18,-26.9 40.4,-1.94C39.62,21.07 22.46,36.67 -4.06,36.67C-27.46,36.67 -45.4,20.29 -45.4,-5.06C-45.4,-27.68 -25.9,-42.11 -0.94,-43.67Z";
+  var WA_PLATE_TL = "M-45.4,-5.06C-45.4,-27.68 -25.9,-42.11 -0.94,-43.67";
+  var WA_PLATE_BR = "M40.4,-1.94C39.62,21.07 22.46,36.67 -4.06,36.67";
+
+  /* B: same anchor template as A, rescaled \u2014 one design language, distinctly
+     different model. 129 x 89 (aspect 1.45) against A's 111 x 103 (1.08), and
+     a proportionally larger plate so the face reads flatter with a narrower
+     chamfer where A reads domed. Bounding area is held at A's (11481 vs
+     11433, 0.4%) so the extra elongation buys no extra visual mass. */
+  var WB = "M2.32,-44.5C39.51,-42.77 65.08,-25.92 63.92,1.73C62.76,27.22 37.19,44.5 -2.32,44.5C-37.19,44.5 -63.92,26.35 -63.92,-1.73C-63.92,-26.79 -34.86,-42.77 2.32,-44.5Z";
+  var WB_TL = "M-63.92,-1.73C-63.92,-26.79 -34.86,-42.77 2.32,-44.5";
+  var WB_BR = "M63.92,1.73C62.76,27.22 37.19,44.5 -2.32,44.5";
+  var WB2 = "M1.9,-44.5C32.4,-42.77 53.37,-25.92 52.41,1.73C51.46,27.22 30.5,44.5 -1.9,44.5C-30.5,44.5 -52.41,26.35 -52.41,-1.73C-52.41,-26.79 -28.59,-42.77 1.9,-44.5Z";
+  var WB2_TL = "M-52.41,-1.73C-52.41,-26.79 -28.59,-42.77 1.9,-44.5";
+  var WB2_BR = "M52.41,1.73C51.46,27.22 30.5,44.5 -1.9,44.5";
+  var WB_PLATE = "M-1.03,-39.51C29.47,-38.09 50.44,-24.27 49.48,-1.6C48.53,19.3 27.57,33.47 -4.83,33.47C-33.43,33.47 -55.34,18.59 -55.34,-4.44C-55.34,-24.99 -31.52,-38.09 -1.03,-39.51Z";
+  var WB_PLATE_TL = "M-55.34,-4.44C-55.34,-24.99 -31.52,-38.09 -1.03,-39.51";
+  var WB_PLATE_BR = "M49.48,-1.6C48.53,19.3 27.57,33.47 -4.83,33.47";
+
+  /* Single builder for both stimuli. `g` carries geometry only.
+
+     Every light position, highlight and detail below is expressed RELATIVE
+     to the silhouette's half-extents rather than in absolute user units. A
+     shorter body would otherwise sit further up the same fixed ramp and
+     render brighter \u2014 which reads as "glossier / more premium" and is
+     precisely the confound this pair must not carry. A is the reference
+     frame (half-extents 55 x 51.5), so for A every factor below is 1. */
+  function whiteBuds(p, g) {
+    var kx = g.hw / 55, ky = g.hh / 51.5;
+    var X = function (n) { return +(n * kx).toFixed(2); };
+    var Y = function (n) { return +(n * ky).toFixed(2); };
+    /* `lgain` stretches the key-light ramp about its lit end. A rounder body
+       holds more of its area up near the light and so shows a broader bright
+       plateau under an identical ramp; left uncorrected that reads as the
+       rounder model being glossier. The gain equalises highlight area between
+       the two silhouettes without touching the finish itself. */
+    var lg = g.lgain == null ? 1 : g.lgain;
+    var ramp = function (v) {
+      return [X(v[0]), Y(v[1]),
+              +(X(v[0]) + (X(v[2]) - X(v[0])) * lg).toFixed(2),
+              +(Y(v[1]) + (Y(v[3]) - Y(v[1])) * lg).toFixed(2)];
+    };
+    return open(p + '_t', 'Wireless earbuds') +
+      '<defs>' + lib(p, BUDBOX,
+          ramp([-56, -54, 22, 34]),
+          [X(-8), Y(-12), X(60), Y(62)],
+          [X(-26), Y(-30), +(84 * (kx + ky) / 2).toFixed(2)]) +
+        '<clipPath id="' + p + '_cFace"><path d="' + g.face + '"/></clipPath>' +
+        '<clipPath id="' + p + '_cRear"><path d="' + g.rear + '"/></clipPath>' +
+        '<clipPath id="' + p + '_cPlate"><path d="' + g.plate + '"/></clipPath>' +
+      '</defs>' +
+
+      /* ---- contact shadows: byte-identical in both renders, so neither
+              model sits heavier on the surface than the other ---- */
+      '<g filter="url(#' + p + '_softS)">' +
+        '<ellipse cx="200" cy="240" rx="126" ry="19" fill="url(#' + p + '_shadow)" opacity="0.4"/>' +
+        '<ellipse cx="148" cy="182" rx="52" ry="11" fill="url(#' + p + '_shadow)" opacity="0.8"/>' +
+        '<ellipse cx="252" cy="246" rx="64" ry="12" fill="url(#' + p + '_shadow)"/>' +
+        '<ellipse cx="252" cy="245" rx="38" ry="7" fill="url(#' + p + '_shadow)" opacity="0.9"/>' +
+      '</g>' +
+
+      /* ================= REAR BUD \u2014 ear-tip / nozzle side ================= */
+      '<g transform="translate(146,110) rotate(10) scale(' + g.sr + ')">' +
+        nozzle(p, g.noz) +
+        rearHousing(p, g.rear, g.rtl, g.rbr, p + '_cRear') +
+      '</g>' +
+
+      /* ================= FRONT BUD \u2014 outer touch-plate face ============== */
+      '<g transform="translate(256,166) rotate(-8) scale(' + g.sf + ')">' +
+        // shell thickness
+        '<path transform="translate(6,8)" d="' + g.face + '" fill="var(--pc-body-dark, #2b323c)"/>' +
+        '<path transform="translate(6,8)" d="' + g.br + '" fill="none" stroke="#ffffff" ' +
+          'stroke-width="2" opacity="0.16" stroke-linecap="round"/>' +
+        // outer shell
+        shell(p, g.face, p + '_cFace', BUDBOX, {}) +
+        /* Touch plate. Both variants use the SAME shell recipe, so the finish
+           is identical; only the depth cue differs. A shallow recess catches a
+           little less key light and a little more occlusion (`recessed`), and
+           its seam reads dark on the light-facing wall / light on the far wall.
+           A flush plate is the exact mirror. Same element count either way. */
+        shell(p, g.plate, p + '_cPlate', BUDBOX,
+              g.recessed ? { light: 0.92, dark: 0.96, sheen: 0.44 }
+                         : { light: 0.95, dark: 0.93, sheen: 0.44 }) +
+        /* Curvature pass, applied AFTER the plate and clipped to the whole
+           face, so rim and plate fall off as one solid. Doing this before the
+           plate (as the opaque-shell keys do) leaves a pale finish reading as
+           a flat disc \u2014 this is the fix for that. */
+        '<g clip-path="url(#' + p + '_cFace)">' +
+          '<path d="' + g.face + '" transform="translate(' + X(-13) + ',' + Y(-14) + ')" fill="none" ' +
+            'stroke="var(--pc-body-dark, #2b323c)" stroke-width="34" opacity="0.62" filter="url(#' + p + '_soft)"/>' +
+          '<path d="' + g.face + '" transform="translate(' + X(9) + ',' + Y(11) + ')" fill="none" ' +
+            'stroke="var(--pc-body-light, #5a6572)" stroke-width="20" opacity="0.45" filter="url(#' + p + '_soft)"/>' +
+        '</g>' +
+        /* plate depth cue + sheen, above the curvature pass so it survives it.
+           The soft arc is one element in both variants, only mirrored in sign:
+           dark inside the light-facing wall = sunken, light = flush/proud. */
+        '<g clip-path="url(#' + p + '_cPlate)">' +
+          '<path d="' + g.ptl + '" fill="none" stroke="' + (g.recessed ? '#0a0d11' : '#ffffff') + '" ' +
+            'stroke-width="10" opacity="' + (g.recessed ? 0.17 : 0.24) + '" stroke-linecap="round" ' +
+            'filter="url(#' + p + '_soft2)"/>' +
+          '<ellipse cx="' + X(4) + '" cy="' + Y(22) + '" rx="' + X(32) + '" ry="' + Y(11) + '" ' +
+            'transform="rotate(-9,' + X(4) + ',' + Y(22) + ')" fill="#ffffff" ' +
+            'opacity="0.12" filter="url(#' + p + '_soft)"/>' +
+        '</g>' +
+        /* The seam. The hairline on the LIT wall is dark in both variants: on a
+           pale shell a dark line is far more visible than a white one, so
+           mirroring its colour outright made the recessed model read as the
+           more detailed product. Only the far wall and the soft arc flip sign
+           \u2014 flush keeps a uniform gap line, recessed steps dark-to-light. */
+        '<path d="' + g.ptl + '" fill="none" stroke="#0a0d11" ' +
+          'stroke-width="1.7" opacity="' + (g.recessed ? 0.22 : 0.2) + '" stroke-linecap="round"/>' +
+        '<path d="' + g.pbr + '" fill="none" stroke="' + (g.recessed ? '#ffffff' : '#0a0d11') + '" ' +
+          'stroke-width="1.7" opacity="' + (g.recessed ? 0.28 : 0.2) + '" stroke-linecap="round"/>' +
+        '<path d="' + g.plate + '" fill="none" stroke="var(--pc-accent, #8d97a6)" ' +
+          'stroke-width="1.1" opacity="0.34"/>' +
+        // mic port
+        '<ellipse cx="' + X(-20) + '" cy="' + Y(28) + '" rx="4.8" ry="2.6" ' +
+          'transform="rotate(-22,' + X(-20) + ',' + Y(28) + ')" fill="#0e1114" opacity="0.38"/>' +
+        // rim light + specular
+        '<path d="' + g.tl + '" fill="none" stroke="#ffffff" stroke-width="2.6" ' +
+          'opacity="0.34" stroke-linecap="round" filter="url(#' + p + '_soft2)"/>' +
+        '<path d="' + g.br + '" fill="none" stroke="#ffffff" stroke-width="2" ' +
+          'opacity="0.17" stroke-linecap="round" filter="url(#' + p + '_soft2)"/>' +
+        '<ellipse cx="' + X(-24) + '" cy="' + Y(-26) + '" rx="' + X(26) + '" ry="' + Y(11) + '" ' +
+          'transform="rotate(-33,' + X(-24) + ',' + Y(-26) + ')" fill="url(#' + p + '_spec)" opacity="0.85"/>' +
+        '<ellipse cx="' + X(-31) + '" cy="' + Y(-31) + '" rx="7" ry="3.8" ' +
+          'transform="rotate(-32,' + X(-31) + ',' + Y(-31) + ')" fill="#ffffff" ' +
+          'opacity="0.3" filter="url(#' + p + '_soft2)"/>' +
+      '</g>' +
+      '</svg>';
+  }
+
+  var budsWhiteA = whiteBuds('wha', {
+    face: WA, tl: WA_TL, br: WA_BR,
+    rear: WA2, rtl: WA2_TL, rbr: WA2_BR,
+    plate: WA_PLATE, ptl: WA_PLATE_TL, pbr: WA_PLATE_BR,
+    recessed: false, hw: 55, hh: 51.5,
+    noz: 'translate(-35,16) rotate(156) scale(1.1,1.1)',
+    sr: 1.12, sf: 1.24
+  });
+
+  var budsWhiteB = whiteBuds('whb', {
+    face: WB, tl: WB_TL, br: WB_BR,
+    rear: WB2, rtl: WB2_TL, rbr: WB2_BR,
+    plate: WB_PLATE, ptl: WB_PLATE_TL, pbr: WB_PLATE_BR,
+    recessed: true, hw: 64.5, hh: 44.5, lgain: 1.35,
+    noz: 'translate(-43,12) rotate(162) scale(1.15,1.1)',
+    /* trimmed 1.5% off both buds: matching bounding area is not the same as
+       matching painted area, and the elongated body was rendering ~3% more
+       solid ink than A. 0.99 is the balance point where hard-alpha, weighted
+       alpha and visible-object area all land inside 2%. */
+    sr: 1.109, sf: 1.222
+  });
+
   return {
     budsLowProfile: budsLowProfile,
     budsStem: budsStem,
     caseLowProfile: caseLowProfile,
-    caseStem: caseStem
+    caseStem: caseStem,
+    budsWhiteA: budsWhiteA,
+    budsWhiteB: budsWhiteB
   };
 })();
 
@@ -919,6 +1142,19 @@ const PRODUCT_SVG_PALETTES = {
     '--pc-accent': '#a8977f',
     '--pc-tip': '#cec3b1',
     '--pc-metal': '#bdb5a8'
+  },
+  /* clean neutral white, shared by budsWhiteA and budsWhiteB. The finish is
+     held constant across the stimulus pair \u2014 it is not a differentiating
+     attribute \u2014 so the two keys must always be rendered with this palette.
+     The body/dark spread is deliberately wide (~93% vs ~66% lightness) so a
+     white shell still models as a curved solid rather than a flat blob. */
+  alpineWhite: {
+    '--pc-body': '#e7e9eb',
+    '--pc-body-light': '#fcfdfd',
+    '--pc-body-dark': '#93989e',
+    '--pc-accent': '#8f949a',
+    '--pc-tip': '#c7cacd',
+    '--pc-metal': '#adb2b8'
   },
   graphite: {
     '--pc-body': '#33383f',
@@ -1119,43 +1355,34 @@ const SKUS  = ["VN-N2-STD","VN-S2-STD"];
 const DESC  = "Adaptive noise cancellation, wireless charging case, multipoint pairing and IP-rated splash resistance.";
 
 const SPEC_LABELS = {
-  drivers:"Driver", origin:"Design & assembly", build:"Housing & construction",
-  voicing:"Acoustic voicing", battery:"Battery, earbuds", anc:"Noise cancellation",
-  water:"Water resistance"
+  origin:"Design & assembly", voicing:"Sound signature", anc:"Noise cancellation",
+  battery:"Battery, earbuds", water:"Water resistance"
 };
-const ROW_ORDER_A = ["drivers","origin","build","voicing","battery","anc","water"];
-const ROW_ORDER_B = ["drivers","battery","anc","water","origin","build","voicing"];
+const ROW_ORDER_A = ["origin","voicing","anc","battery","water"];
+const ROW_ORDER_B = ["origin","battery","water","voicing","anc"];
 
 // ONE pair of models, shown in BOTH domain conditions. They differ only on
 // qualitative, non-quantified dimensions that cannot be ranked by inspection, so
 // neither model dominates and the decision is equally hard in both conditions.
 // The domain manipulation lives entirely in the lab-report framing below.
 const MODEL_PROFILES = [
-  { render:"budsLowProfile", palette:"slateBlue",
-    specs:{ drivers:["11 mm dynamic",""],
-            origin:["Designed in Denmark",""],
-            build:["Machined aluminium",""],
-            voicing:["Warm, full-bodied",""],
-            battery:["28","h"], anc:["Adaptive hybrid",""], water:["IPX6 \u00b7 heavy splash",""] } },
-  { render:"budsStem", palette:"sandWhite",
-    specs:{ drivers:["11 mm dynamic",""],
-            origin:["Designed in Japan",""],
-            build:["Composite polymer",""],
-            voicing:["Bright, articulate",""],
-            battery:["28","h"], anc:["Adaptive hybrid",""], water:["IPX6 \u00b7 heavy splash",""] } }
+  { render:"budsWhiteA", palette:"alpineWhite",
+    specs:{ origin:["Designed in Denmark",""], voicing:["Warm, bass-forward",""],
+            anc:["Adaptive noise cancelling",""],
+            battery:["28","h"], water:["IPX6 \u00b7 heavy splash",""] } },
+  { render:"budsWhiteB", palette:"alpineWhite",
+    specs:{ origin:["Designed in Denmark",""], voicing:["Bright, detail-forward",""],
+            anc:["Feedforward noise cancelling",""],
+            battery:["28","h"], water:["IPX6 \u00b7 heavy splash",""] } }
 ];
-// Rows on which the two models differ. Identical in both domains, so the structure
-// of the comparison -- and therefore its difficulty -- is held constant.
-const DIFFER_KEYS = ["origin","build","voicing"];
+const DIFFER_KEYS = ["voicing","anc"];
 
-const LABBAND = {
-  taste:  "Our bench measurements and trained listening panels find no quality difference between these two "+
-          "models \u2014 they differ in origin, construction and voicing, and which one is better is purely a "+
-          "matter of personal taste. We publish the differences and leave the decision to you.",
-  quality:"Our bench measurements and trained listening panels find a real quality difference between these two "+
-          "models \u2014 they differ in origin, construction and voicing, and which one is better is an objective "+
-          "matter of fact. We publish the differences and leave the decision to you."
+const VERDICT = {
+  taste:  { pill:"A MATTER OF TASTE", head:"Which one is better is a matter of taste." },
+  quality:{ pill:"A MATTER OF FACT",  head:"Which one is better is a matter of fact."  }
 };
+const VERDICT_SUB = "Our trained listening panel compared these two models on sound signature and noise "+
+  "cancellation, then published what they found. The decision is yours.";
 
 const FRAME = {
   choose:{ instr:"One of these two models is going in your cart. Which one do you want to keep?",
@@ -1417,6 +1644,38 @@ function numberQ(code, prompt, prefix, hint, min, max){
   return h;
 }
 
+/** visual card picker used by the preference-intake screen */
+function cardPick(code, prompt, options, cols){
+  let h = '<div class="blk"><p class="qlab" id="lbl-'+code+'">'+esc(prompt)+'</p>'+
+          '<div class="cards" style="grid-template-columns:repeat('+cols+',1fr)" '+
+          'role="radiogroup" aria-labelledby="lbl-'+code+'">';
+  for(const o of options)
+    h += '<label class="pcardopt"><input type="radio" name="'+code+'" value="'+esc(o.v)+'">'+
+         '<span class="ico" aria-hidden="true">'+o.icon+'</span>'+
+         '<span class="clab">'+esc(o.t)+'</span></label>';
+  h += '</div></div>';
+  BLOCKS.push({
+    validate(){ return $('input[name="'+code+'"]:checked') ? null : "Please choose one option for every question."; },
+    save(){ const el=$('input[name="'+code+'"]:checked');
+            D[code]=el.value; D[code+"_label"]=options.filter(o=>o.v===el.value)[0].t; }
+  });
+  return h;
+}
+const IC = {
+  commute:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="3" width="16" height="14" rx="3"/><path d="M4 12h16M8 20l-1.5 2M16 20l1.5 2"/><circle cx="8.5" cy="14.5" r="1"/><circle cx="15.5" cy="14.5" r="1"/></svg>',
+  workout:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 8v8M18 8v8M3 10v4M21 10v4M6 12h12"/></svg>',
+  calls:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 6c0-1 1-2 2-2h2l2 4-2 2c1 2 3 4 5 5l2-2 4 2v2c0 1-1 2-2 2C10 19 5 14 4 6z"/></svg>',
+  music:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 18V6l10-2v12"/><circle cx="6.5" cy="18" r="2.5"/><circle cx="16.5" cy="16" r="2.5"/></svg>',
+  short:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="8" width="16" height="8" rx="2"/><path d="M21 11v2"/><rect x="4" y="10" width="4" height="4" fill="currentColor" stroke="none"/></svg>',
+  day:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="8" width="16" height="8" rx="2"/><path d="M21 11v2"/><rect x="4" y="10" width="9" height="4" fill="currentColor" stroke="none"/></svg>',
+  long:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="8" width="16" height="8" rx="2"/><path d="M21 11v2"/><rect x="4" y="10" width="12" height="4" fill="currentColor" stroke="none"/></svg>',
+  indoor:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/><path d="M10 20v-6h4v6"/></svg>',
+  outdoor:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M7 17a4 4 0 010-8 5.5 5.5 0 0110.5 1.5A3.5 3.5 0 0117 17z"/><path d="M8 20l-1 2M12 20l-1 2M16 20l-1 2"/></svg>',
+  budget1:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="8"/><path d="M12 7v10M14.5 9.5c0-1-1-1.5-2.5-1.5s-2.5.6-2.5 1.7S10.5 12 12 12s2.8.5 2.8 1.8-1.2 1.7-2.8 1.7-2.5-.6-2.5-1.5"/></svg>',
+  budget2:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="6" width="20" height="12" rx="2"/><circle cx="12" cy="12" r="2.5"/><path d="M6 12h.01M18 12h.01"/></svg>',
+  budget3:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 17l5-6 4 4 4-6 5 8z"/><path d="M3 20h18"/></svg>'
+};
+
 /** the frame-aligned recap shown above every measurement screen */
 function recap(){
   const choose = D.cond_act==="choose";
@@ -1495,29 +1754,81 @@ const PAGES = [
   }
 },
 
+/* ------------------------------------------------ preference intake (real) */
+{ id:"intake", fam:"instr", title:"Set up your search", cta:"Search Vantrel",
+  render(c){
+    c.innerHTML='<h1 tabindex="-1">Set up your search</h1>'+
+      '<div class="prose" style="margin-top:14px"><p style="font-size:var(--t-body-size);line-height:22px;'+
+      'margin:0">Tell the shopping assistant what you are after. It uses your answers to narrow the '+
+      'Vantrel range down to a shortlist.</p></div>'+
+      cardPick("pref_use","What will you mostly use them for?",[
+        {v:"commute",icon:IC.commute,t:"Commuting"},
+        {v:"workout",icon:IC.workout,t:"Workouts"},
+        {v:"calls",  icon:IC.calls,  t:"Calls & focus"},
+        {v:"music",  icon:IC.music,  t:"Music at home"}],4)+
+      cardPick("pref_battery","How long do they need to last on one charge?",[
+        {v:"few",    icon:IC.short,t:"A few hours"},
+        {v:"day",    icon:IC.day,  t:"A full day"},
+        {v:"twodays",icon:IC.long, t:"Two days or more"}],3)+
+      cardPick("pref_where","Where will you be wearing them?",[
+        {v:"indoors", icon:IC.indoor, t:"Mostly indoors"},
+        {v:"outdoors",icon:IC.outdoor,t:"Out and about, all weathers"}],2)+
+      cardPick("pref_budget","What is your budget?",[
+        {v:"u75", icon:IC.budget1,t:"Under $75"},
+        {v:"mid", icon:IC.budget2,t:"$75 to $125"},
+        {v:"o125",icon:IC.budget3,t:"Over $125"}],3);
+  }
+},
+
 /* ------------------------------------------------------------- task setup */
 { id:"task", fam:"instr", title:"Your task", cta:"Open the shopping assistant",
   render(c){
     c.innerHTML='<h1 tabindex="-1">Your task</h1>'+
-    '<div class="prose" style="margin-top:16px"><p>Shop for a pair of true wireless earbuds, the way you '+
-    'normally would.</p></div>'+
+    '<div class="prose" style="margin-top:16px"><p>The assistant has finished searching. Here is what it '+
+    'used, and what it found.</p></div>'+
     '<div class="panel"><h2>What you told the assistant</h2>'+
       '<div class="chips">'+
-        '<span class="chip">True wireless earbuds</span>'+
-        '<span class="chip">Under $100</span>'+
-        '<span class="chip">Strong noise cancellation</span>'+
-        '<span class="chip">All-day battery</span>'+
+        '<span class="chip">'+esc(D.pref_use_label)+'</span>'+
+        '<span class="chip">'+esc(D.pref_battery_label)+'</span>'+
+        '<span class="chip">'+esc(D.pref_where_label)+'</span>'+
+        '<span class="chip">'+esc(D.pref_budget_label)+'</span>'+
       '</div></div>'+
     '<div class="panel"><h2>What the assistant did</h2>'+
       '<div class="prose"><p style="margin:0">It searched <strong>47 models</strong> from '+
       '<strong>Vantrel</strong>, a direct-to-consumer audio brand, and narrowed them to <strong>two</strong>. '+
       'Both cost the same, and both are in stock.</p></div></div>'+
     '<div class="callout"><h2>About the lab report</h2>'+
-      '<p>Vantrel has every model it sells measured by an independent test lab, and publishes the results. '+
-      'On the next screen you will see the part of that report that distinguishes these two models \u2014 it '+
-      'appears above them, before the products themselves.</p></div>';
+      '<p>Vantrel has every model it sells assessed by an independent test lab before it goes on sale. '+
+      'You will see that report next, and a reminder of it stays with you while you decide.</p></div>';
   },
   async onExit(){ await assignCondition(); }      // ASSIGNMENT: last moment before the manipulation
+},
+
+/* ------------------------------------------- lab report interstitial (store) */
+{ id:"labreport", fam:"store", cta:"See the two models", ctaStore:true,
+  render(c){
+    const v = VERDICT[D.cond_domain];
+    const inner =
+      '<div class="shell" style="padding-top:28px">'+
+        '<h1 class="store-h1" tabindex="-1">Independent lab report</h1>'+
+        '<p class="store-sub">Vantrel has every model it sells assessed before it goes on sale. '+
+        'This is the finding for the two models on your shortlist.</p>'+
+        '<section class="verdict" style="margin-top:26px">'+
+          '<div><span class="vpill">'+esc(v.pill)+'</span>'+
+            '<p class="vhead">'+esc(v.head)+'</p>'+
+            '<p class="vsub">'+esc(VERDICT_SUB)+'</p>'+
+            '<p class="vfoot">\u2020 Measured at 1 kHz, 94 dB SPL. Full method at vantrel.com/lab.</p>'+
+          '</div>'+
+          '<dl class="labmeta">'+
+            '<dt>Report</dt><dd>VAL-2026-0314-R2</dd>'+
+            '<dt>Issued</dt><dd>14 March 2026</dd>'+
+            '<dt>Accredited</dt><dd>ISO/IEC 17025</dd>'+
+            '<dt>Panel</dt><dd>24 trained listeners</dd>'+
+          '</dl>'+
+        '</section>'+
+      '</div>';
+    c.innerHTML = storeChrome(inner);
+  }
 },
 
 /* --------------------------------------------------- THE DECISION (store) */
@@ -1528,19 +1839,12 @@ const PAGES = [
     const inner =
       '<div class="shell" style="padding-top:28px">'+
         '<h1 class="store-h1" tabindex="-1">Two models match your answers</h1>'+
-        '<p class="store-sub">Based on what you told us about fit, battery life and call quality, these are the '+
-        'closest matches in the current Vantrel range.</p>'+
-        '<section class="labband" style="margin-top:20px" aria-label="Independent lab report">'+
-          '<div><div class="eyebrow">Independent lab report</div>'+
-          '<p class="body">'+esc(LABBAND[D.cond_domain])+'</p>'+
-          '<p class="fn">\u2020 Measured at 1\u00a0kHz, 94\u00a0dB SPL. Full method at '+
-          '<a href="#" onclick="return false">vantrel.com/lab</a>.</p></div>'+
-          '<dl class="labmeta">'+
-            '<dt>Report</dt><dd>VAL-2026-0314-R2</dd>'+
-            '<dt>Issued</dt><dd>14 March 2026</dd>'+
-            '<dt>Accredited</dt><dd>ISO/IEC 17025</dd>'+
-            '<dt>Panel</dt><dd>24 trained listeners</dd>'+
-          '</dl>'+
+        '<p class="store-sub">Both match everything you told us. They differ only in <strong>sound '+
+        'signature</strong> and <strong>noise cancellation</strong>.</p>'+
+        '<section class="vstrip" style="margin-top:20px" aria-label="Independent lab report">'+
+          '<span class="vpill">'+esc(VERDICT[D.cond_domain].pill)+'</span>'+
+          '<span class="vs-head">'+esc(VERDICT[D.cond_domain].head)+'</span>'+
+          '<span class="vs-meta">Independent lab report<br>VAL-2026-0314-R2 \u00b7 ISO/IEC 17025</span>'+
         '</section>'+
         '<p class="instr-line" style="margin-top:24px">'+esc(f.instr)+'</p>'+
         '<div class="compare" id="cmp" style="margin-top:20px">'+
@@ -1923,7 +2227,7 @@ let ORDER=[], CURSOR=-1, CURRENT_ID="load", ENTERED=0;
 function buildOrder(){
   // fixed spine, with two counterbalanced regions
   const byId={}; PAGES.forEach(p=>byId[p.id]=p);
-  const head=["consent","intro","task","stimulus","outcome","dv","downstream"];
+  const head=["consent","intro","intake","task","labreport","stimulus","outcome","dv","downstream"];
   const medOrder = pick2() ? ["med_quality","med_taste"] : ["med_taste","med_quality"];
   const expOrder = shuf(["exp_a","exp_b","rivals","singles"]);
   const tail=["checks","demographics","summary","debrief"];
