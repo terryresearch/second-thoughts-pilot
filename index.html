@@ -1188,7 +1188,7 @@ const CONFIG = {
   decisionDelayMs: 7000,          // decision buttons enable after this
   completion: {
     platform: "prolific",
-    code: "REPLACE_ME",
+    code: "CY9VAW2S",
     prolificRedirect: "https://app.prolific.com/submissions/complete?cc="
   },
   minMinutes: 6
@@ -2054,22 +2054,7 @@ const PAGES = [
       '<p class="err" id="demo_age-e" role="alert"></p></div>'+
       '<div class="blk"><label class="fld" for="demo_gender">Gender</label>'+
       '<select id="demo_gender"><option value="">Select\u2026</option><option>Woman</option><option>Man</option>'+
-      '<option>Non-binary</option><option>Prefer to self-describe</option><option>Prefer not to say</option></select></div>'+
-      '<div class="blk"><label class="fld" for="demo_edu">Highest level of education completed</label>'+
-      '<select id="demo_edu"><option value="">Select\u2026</option><option>Less than high school</option>'+
-      '<option>High school / GED</option><option>Some college</option><option>2-year degree</option>'+
-      '<option>4-year degree</option><option>Graduate or professional degree</option>'+
-      '<option>Prefer not to say</option></select></div>'+
-      '<div class="blk"><label class="fld" for="demo_income">Household income last year, before tax</label>'+
-      '<select id="demo_income"><option value="">Select\u2026</option><option>Under $25,000</option>'+
-      '<option>$25,000\u2013$49,999</option><option>$50,000\u2013$74,999</option><option>$75,000\u2013$99,999</option>'+
-      '<option>$100,000\u2013$149,999</option><option>$150,000 or more</option>'+
-      '<option>Prefer not to say</option></select></div>'+
-      '<div class="blk"><label class="fld" for="suspicion">What do you think this study was about?</label>'+
-      '<textarea id="suspicion" maxlength="4000"></textarea>'+
-      '<p class="hint">A sentence is fine. If you are not sure, say so.</p></div>';
-    D.suspicion_paste_n=0;
-    $('#suspicion').addEventListener('paste',()=>{ D.suspicion_paste_n++; });
+      '<option>Non-binary</option><option>Prefer to self-describe</option><option>Prefer not to say</option></select></div>';
   },
   validate(){
     const raw=$('#demo_age').value.trim(); const n=Number(raw); const e=$('#demo_age-e');
@@ -2078,17 +2063,11 @@ const PAGES = [
     }
     e.style.display="none";
     if(!$('#demo_gender').value) return "Please choose a gender option.";
-    if(!$('#demo_edu').value) return "Please choose an education option.";
-    if(!$('#demo_income').value) return "Please choose an income option.";
-    if(!$('#suspicion').value.trim()) return "Please write at least a word or two.";
     return null;
   },
   onExit(){
     D.demo_age=Math.round(Number($('#demo_age').value.trim()));
     D.demo_gender=$('#demo_gender').value;
-    D.demo_edu=$('#demo_edu').value;
-    D.demo_income=$('#demo_income').value;
-    D.suspicion=$('#suspicion').value.trim().slice(0,4000);
   }
 },
 
