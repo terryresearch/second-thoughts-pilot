@@ -1352,7 +1352,7 @@ function markHtml(){
 const NAMES = ["Vantrel Nord","Vantrel Sela"];
 const SHORT = ["Nord","Sela"];
 const SKUS  = ["VN-N2-STD","VN-S2-STD"];
-const DESC  = "Adaptive noise cancellation, wireless charging case, multipoint pairing and IP-rated splash resistance.";
+const DESC  = "Wireless charging case, multipoint pairing, low-latency mode and IP-rated splash resistance.";
 
 const SPEC_LABELS = {
   origin:"Design & assembly", voicing:"Sound signature", anc:"Noise cancellation",
@@ -1378,8 +1378,10 @@ const MODEL_PROFILES = [
 const DIFFER_KEYS = ["voicing","anc"];
 
 const VERDICT = {
-  taste:  { pill:"A MATTER OF TASTE", head:"Which one is better is a matter of taste." },
-  quality:{ pill:"A MATTER OF FACT",  head:"Which one is better is a matter of fact."  }
+  taste:  { pill:"A MATTER OF TASTE", head:"Which one is better is a matter of taste.",
+            foot:"\u2020 Panel listened blind at 94 dB SPL. Full method at vantrel.com/lab." },
+  quality:{ pill:"A MATTER OF FACT",  head:"Which one is better is a matter of fact.",
+            foot:"\u2020 Panel measured blind at 94 dB SPL. Full method at vantrel.com/lab." }
 };
 const VERDICT_SUB = "Our trained listening panel compared these two models on sound signature and noise "+
   "cancellation, then published what they found. The decision is yours.";
@@ -1738,7 +1740,7 @@ const PAGES = [
     'answer questions about it.</p></div>'+
     '<div class="steps">'+
       '<div class="step"><div class="num">1</div><h2>You describe what you want</h2>'+
-        '<p>Budget, features, how you plan to use the product. This has already been done for you.</p></div>'+
+        '<p>Budget, features, how you plan to use the product. You do this on the next page.</p></div>'+
       '<div class="step"><div class="num">2</div><h2>The assistant narrows it down</h2>'+
         '<p>It searches the retailer\u2019s full catalogue and returns a shortlist of the closest matches.</p></div>'+
       '<div class="step"><div class="num">3</div><h2>You make the final call</h2>'+
@@ -1817,7 +1819,7 @@ const PAGES = [
           '<div><span class="vpill">'+esc(v.pill)+'</span>'+
             '<p class="vhead">'+esc(v.head)+'</p>'+
             '<p class="vsub">'+esc(VERDICT_SUB)+'</p>'+
-            '<p class="vfoot">\u2020 Measured at 1 kHz, 94 dB SPL. Full method at vantrel.com/lab.</p>'+
+            '<p class="vfoot">'+esc(v.foot)+'</p>'+
           '</div>'+
           '<dl class="labmeta">'+
             '<dt>Report</dt><dd>VAL-2026-0314-R2</dd>'+
